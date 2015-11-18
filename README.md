@@ -1,4 +1,10 @@
 # MSTMiniProjekt
+## First Steps
+- Copy from "vorlage" the .vs/ directory in the git directory
+- Create a sqldb in the windows command line with the command: sqllocaldb create "MSTMiniProjekt"
+- open the "AutoReservation.Database Create Script.sql" file in visual studio and run it
+- write "(localdb)\MSTMiniProjekt" in the Servername fieldand click connect
+
 ## 1.3 Arbeitspakete
 #### Paket 1: Data Access Layer und Business Layer (KW 47/48)
 - Implementieren Sie den DAL mit dem Entity Framework.
