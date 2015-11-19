@@ -8,15 +8,35 @@ namespace AutoReservation.BusinessLayer
         {
             using (var context = new AutoReservationEntities())
             {
-                
+                var autos = context.Auto;
             }
         }
 
-        public void saveAuto(Auto auto)
+        public void insertAuto(Auto auto)
         {
             using (var context = new AutoReservationEntities())
             {
                 context.Auto.Add(auto);
+                context.SaveChanges();
+            }
+        }
+
+        public void updateAuto(Auto original, Auto modified)
+        {
+            using (var context = new AutoReservationEntities())
+            {
+                context.Auto.Attach(original);
+                context.Entry(original).CurrentValues.SetValues(modified);
+                context.SaveChanges();
+            }
+        }
+
+        public void deleteAuto(Auto auto)
+        {
+            using (var context = new AutoReservationEntities())
+            {
+                context.Auto.Attach(auto);
+                context.Auto.Remove(auto);
                 context.SaveChanges();
             }
         }
