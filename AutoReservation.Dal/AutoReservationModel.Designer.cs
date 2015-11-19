@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'D:\Google Drive\Ausbildung\Studium\Semester_05\MsTe\02_Uebungen\99_Miniprojekt\projekt\MSTMiniProjekt\AutoReservation.Dal\AutoReservationModel.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Users\Luca\git\MSTMiniProjekt\AutoReservation.Dal\AutoReservationModel.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

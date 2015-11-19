@@ -108,8 +108,8 @@
           <Property Name="KundeId" Type="Int32" Nullable="false" ConcurrencyMode="Fixed" />
           <Property Name="Von" Type="DateTime" Nullable="false" Precision="3" ConcurrencyMode="Fixed" />
           <Property Name="Bis" Type="DateTime" Nullable="false" Precision="3" ConcurrencyMode="Fixed" />
-          <NavigationProperty Name="Autos" Relationship="Self.FK_Reservation_Auto" FromRole="Reservation" ToRole="Auto" />
-          <NavigationProperty Name="Kunden" Relationship="Self.FK_Reservation_Kunde" FromRole="Reservation" ToRole="Kunde" />
+          <NavigationProperty Name="Auto" Relationship="Self.FK_Reservation_Auto" FromRole="Reservation" ToRole="Auto" />
+          <NavigationProperty Name="Kunde" Relationship="Self.FK_Reservation_Kunde" FromRole="Reservation" ToRole="Kunde" />
         </EntityType>
         <Association Name="FK_Reservation_Auto">
           <End Role="Auto" Type="Self.Auto" Multiplicity="1">

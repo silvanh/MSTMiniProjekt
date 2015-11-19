@@ -1,51 +1,109 @@
 ﻿using AutoReservation.Common.Extensions;
 using AutoReservation.Common.DataTransferObjects.Core;
+using System.Text;
+using System;
 
 namespace AutoReservation.Common.DataTransferObjects
 {
-    public class KundeDto //: DtoBase<KundeDto>
+    public class KundeDto : DtoBase<KundeDto>
     {
 
-        //public override string Validate()
-        //{
-        //    StringBuilder error = new StringBuilder();
-        //    if (string.IsNullOrEmpty(Nachname))
-        //    {
-        //        error.AppendLine("- Nachname ist nicht gesetzt.");
-        //    }
-        //    if (string.IsNullOrEmpty(Vorname))
-        //    {
-        //        error.AppendLine("- Vorname ist nicht gesetzt.");
-        //    }
-        //    if (Geburtsdatum == DateTime.MinValue)
-        //    {
-        //        error.AppendLine("- Geburtsdatum ist nicht gesetzt.");
-        //    }
+        private int id;
+        public int Id
+        {
+            get { return id; }
+            set
+            {
+                if (id != value)
+                {
+                    id = value;
+                    this.OnPropertyChanged(p => p.Id);
+                }
+            }
+        }
 
-        //    if (error.Length == 0) { return null; }
+        private string vorname;
+        public string Vorname
+        {
+            get { return vorname; }
+            set
+            {
+                if (vorname != value)
+                {
+                    vorname = value;
+                    this.OnPropertyChanged(p => p.Vorname);
+                }
+            }
+        }
 
-        //    return error.ToString();
-        //}
+        private string nachname;
+        public string Nachname
+        {
+            get { return nachname; }
+            set
+            {
+                if (nachname != value)
+                {
+                    nachname = value;
+                    this.OnPropertyChanged(p => p.Nachname);
+                }
+            }
+        }
 
-        //public override KundeDto Clone()
-        //{
-        //    return new KundeDto
-        //    {
-        //        Id = Id,
-        //        Nachname = Nachname,
-        //        Vorname = Vorname,
-        //        Geburtsdatum = Geburtsdatum
-        //    };
-        //}
+        private DateTime geburtsdatum;
+        public DateTime Geburtsdatum
+        {
+            get { return geburtsdatum; }
+            set
+            {
+                if (geburtsdatum != value)
+                {
+                    geburtsdatum = value;
+                    this.OnPropertyChanged(p => p.Geburtsdatum);
+                }
+            }
+        }
 
-        //public override string ToString()
-        //{
-        //    return string.Format(
-        //        "{0}; {1}; {2}; {3}",
-        //        Id,
-        //        Nachname,
-        //        Vorname,
-        //        Geburtsdatum);
-        //}
+        public override string Validate()
+        {
+            StringBuilder error = new StringBuilder();
+            if (string.IsNullOrEmpty(Nachname))
+            {
+                error.AppendLine("- Nachname ist nicht gesetzt.");
+            }
+            if (string.IsNullOrEmpty(Vorname))
+            {
+                error.AppendLine("- Vorname ist nicht gesetzt.");
+            }
+            if (Geburtsdatum == DateTime.MinValue)
+            {
+                error.AppendLine("- Geburtsdatum ist nicht gesetzt.");
+            }
+
+            if (error.Length == 0) { return null; }
+
+            return error.ToString();
+        }
+
+        public override KundeDto Clone()
+        {
+            return new KundeDto
+            {
+                Id = Id,
+                Nachname = Nachname,
+                Vorname = Vorname,
+                Geburtsdatum = Geburtsdatum
+            };
+        }
+
+        public override string ToString()
+        {
+            return string.Format(
+                "{0}; {1}; {2}; {3}",
+                Id,
+                Nachname,
+                Vorname,
+                Geburtsdatum);
+        }
     }
 }
