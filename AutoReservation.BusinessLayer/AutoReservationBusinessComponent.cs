@@ -1,4 +1,5 @@
 ﻿using AutoReservation.Dal;
+using System.Data.Entity.Infrastructure;
 
 namespace AutoReservation.BusinessLayer
 {
@@ -27,7 +28,14 @@ namespace AutoReservation.BusinessLayer
             {
                 context.Auto.Attach(original);
                 context.Entry(original).CurrentValues.SetValues(modified);
-                context.SaveChanges();
+                try
+                {
+                    context.SaveChanges();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    HandleDbConcurrencyException(context, original);
+                }
             }
         }
 
