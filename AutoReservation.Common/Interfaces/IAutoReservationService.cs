@@ -8,48 +8,48 @@ namespace AutoReservation.Common.Interfaces
     public interface IAutoReservationService
     {
         [OperationContract]
-        List<AutoDto> getAutos();
+        List<AutoDto> GetAutos();
 
         [OperationContract]
-        AutoDto getAuto(int id);
+        AutoDto GetAuto(int id);
 
         [OperationContract]
-        void addAuto(AutoDto auto);
+        void AddAuto(AutoDto auto);
 
         [OperationContract]
-        void updateAuto(AutoDto auto);
+        void UpdateAuto(AutoDto original, AutoDto modified);
 
         [OperationContract]
-        void deleteAuto(AutoDto auto);
+        void DeleteAuto(AutoDto auto);
 
         [OperationContract]
-        List<ReservationDto> getReservations();
+        List<ReservationDto> GetReservationen();
 
         [OperationContract]
-        ReservationDto getReservation(int id);
+        ReservationDto GetReservation(int id);
 
         [OperationContract]
-        void addReservation(ReservationDto reservation);
+        void AddReservation(ReservationDto reservation);
 
         [OperationContract]
-        void updateReservation(ReservationDto reservation);
+        void UpdateReservation(ReservationDto original, ReservationDto modified);
 
         [OperationContract]
-        void deleteReservation(ReservationDto reservation);
+        void DeleteReservation(ReservationDto reservation);
 
         [OperationContract]
-        List<KundeDto> getKunden();
+        List<KundeDto> GetKunden();
 
         [OperationContract]
-        KundeDto getKunde(int id);
+        KundeDto GetKunde(int id);
 
         [OperationContract]
-        void addKunde(KundeDto kunde);
+        void AddKunde(KundeDto kunde);
 
         [OperationContract]
-        void updateKunde(KundeDto kunde);
+        void UpdateKunde(KundeDto original, KundeDto modified);
 
         [OperationContract]
-        void deleteKunde(KundeDto kunde);
+        void DeleteKunde(KundeDto kunde);
     }
 }

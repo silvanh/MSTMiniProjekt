@@ -29,7 +29,12 @@ namespace AutoReservation.BusinessLayer.Testing
         [TestMethod]
         public void Test_UpdateAuto()
         {
-            Assert.Inconclusive("Test not implemented.");
+            var original = Target.LoadSpecificAuto(1);
+            var modified = Target.LoadSpecificAuto(1);
+            modified.Marke = "BMW";
+            Target.UpdateAuto(original, modified);
+            var updated = Target.LoadSpecificAuto(1);
+            Assert.AreEqual("BMW",updated.Marke);
         }
 
         [TestMethod]
