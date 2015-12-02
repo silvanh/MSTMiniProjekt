@@ -1,6 +1,8 @@
 ﻿using AutoReservation.TestEnvironment;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using AutoReservation.Dal;
+using System;
+using System.Collections.Generic;
 
 namespace AutoReservation.BusinessLayer.Testing
 {
@@ -54,46 +56,91 @@ namespace AutoReservation.BusinessLayer.Testing
         {
             var original = Target.LoadSpecificReservation(1);
             var modified = Target.LoadSpecificReservation(1);
-            modified.Von = new System.DateTime(10000);
+            modified.Von = new DateTime(2015, 10, 10);
             Target.UpdateReservation(original, modified);
+
             var updated = Target.LoadSpecificReservation(1);
-            Assert.AreEqual(new System.DateTime(10000), updated.Von);
+            Assert.AreEqual(new DateTime(2015, 10, 10), updated.Von);
         }
 
         [TestMethod]
         public void Test_InsertAuto()
         {
-            Assert.Inconclusive("Test not implemented.");
+            int oldCount = Target.LoadAutos().Count;
+            Auto auto = new StandardAuto();
+            auto.Marke = "Lexus";
+            auto.Tagestarif = 120;
+            Target.InsertAuto(auto);
+
+            List<Auto> autos = Target.LoadAutos();
+            Assert.AreNotEqual(autos.Count, oldCount);
+            Assert.IsNotNull(autos.Find(a => a.Marke == "Lexus" && a.Tagestarif == 120));
         }
+
         [TestMethod]
         public void Test_InsertKunde()
         {
-            Assert.Inconclusive("Test not implemented.");
+            int oldCount = Target.LoadKunden().Count;
+            Kunde kunde = new Kunde();
+            kunde.Nachname = "Holmes";
+            kunde.Vorname = "Sherlock";
+            kunde.Geburtsdatum = new DateTime(1854, 8, 1);
+            Target.InsertKunde(kunde);
+
+            Assert.IsTrue(kunde.Id > 0);
+
+            List<Kunde> kunden = Target.LoadKunden();
+            Assert.AreNotEqual(kunden.Count, oldCount);
+            Assert.IsNotNull(kunden.Find(k => k.Vorname == "Sherlock" && k.Nachname == "Holmes"));
         }
 
 
         [TestMethod]
         public void Test_InsertReservation()
         {
-            Assert.Inconclusive("Test not implemented.");
+            List<Auto> autos = Target.LoadAutos();
+            List<Kunde> kunden = Target.LoadKunden();
+
+            if (autos.Count > 0 && kunden.Count > 0)
+            {
+                Reservation res = new Reservation();
+                res.KundeId = kunden[0].Id;
+                res.AutoId = autos[0].Id;
+                res.Von = new DateTime(2015, 11, 30);
+                res.Bis = new DateTime(2015, 12, 13);
+                Target.InsertReservation(res);
+
+                Assert.IsTrue(res.ReservationNr > 0);
+            }
+            else
+            {
+                Assert.Inconclusive("Cannot run test, since there are no cars or customers available.");
+            }
         }
 
         [TestMethod]
         public void Test_DeleteAuto()
         {
-            Assert.Inconclusive("Test not implemented.");
+            Auto a = Target.LoadSpecificAuto(1);
+            Target.DeleteAuto(a);
+            Assert.IsNull(Target.LoadSpecificAuto(1));
         }
+
         [TestMethod]
         public void Test_DeleteKunde()
         {
-            Assert.Inconclusive("Test not implemented.");
+            Kunde k = Target.LoadSpecificKunde(1);
+            Target.DeleteKunde(k);
+            Assert.IsNull(Target.LoadSpecificKunde(1));
         }
 
 
         [TestMethod]
         public void Test_DeleteReservation()
         {
-            Assert.Inconclusive("Test not implemented.");
+            Reservation res = Target.LoadSpecificReservation(1);
+            Target.DeleteReservation(res);
+            Assert.IsNull(Target.LoadSpecificReservation(1));
         }
 
     }

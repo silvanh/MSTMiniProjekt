@@ -17,7 +17,7 @@ namespace AutoReservation.Ui.ViewModels
 
         public AutoViewModel(IServiceFactory factory) : base(factory)
         {
-            
+            Init();
         }
 
         public ObservableCollection<AutoDto> Autos

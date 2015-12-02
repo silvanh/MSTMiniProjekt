@@ -23,7 +23,7 @@ namespace AutoReservation.BusinessLayer
                 var query = from a in context.Auto
                             where a.Id == id
                             select a;
-                return query.First();
+                return query.FirstOrDefault();
                 //return context.Auto.Where(a=>a.Id==id).First();
             }
         }
@@ -76,7 +76,7 @@ namespace AutoReservation.BusinessLayer
         {
             using (var context = new AutoReservationEntities())
             {
-                return context.Reservation.ToList().Where(r => r.ReservationNr == reservationNr).First();
+                return context.Reservation.ToList().Where(r => r.ReservationNr == reservationNr).FirstOrDefault();
             }
         }
 
@@ -128,7 +128,7 @@ namespace AutoReservation.BusinessLayer
         {
             using (var context = new AutoReservationEntities())
             {
-                return context.Kunde.ToList().Where(k => k.Id == id).First();
+                return context.Kunde.ToList().Where(k => k.Id == id).FirstOrDefault();
             }
         }
 
