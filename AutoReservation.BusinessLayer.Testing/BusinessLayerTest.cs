@@ -1,5 +1,6 @@
 ﻿using AutoReservation.TestEnvironment;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using AutoReservation.Dal;
 
 namespace AutoReservation.BusinessLayer.Testing
 {
@@ -40,13 +41,60 @@ namespace AutoReservation.BusinessLayer.Testing
         [TestMethod]
         public void Test_UpdateKunde()
         {
-            Assert.Inconclusive("Test not implemented.");
+            var original = Target.LoadSpecificKunde(1);
+            var modified = Target.LoadSpecificKunde(1);
+            modified.Nachname = "Testman";
+            Target.UpdateKunde(original, modified);
+            var updated = Target.LoadSpecificKunde(1);
+            Assert.AreEqual("Testman", updated.Nachname);
         }
 
         [TestMethod]
         public void Test_UpdateReservation()
         {
+            var original = Target.LoadSpecificReservation(1);
+            var modified = Target.LoadSpecificReservation(1);
+            modified.Von = new System.DateTime(10000);
+            Target.UpdateReservation(original, modified);
+            var updated = Target.LoadSpecificReservation(1);
+            Assert.AreEqual(new System.DateTime(10000), updated.Von);
+        }
+
+        [TestMethod]
+        public void Test_InsertAuto()
+        {
             Assert.Inconclusive("Test not implemented.");
         }
+        [TestMethod]
+        public void Test_InsertKunde()
+        {
+            Assert.Inconclusive("Test not implemented.");
+        }
+
+
+        [TestMethod]
+        public void Test_InsertReservation()
+        {
+            Assert.Inconclusive("Test not implemented.");
+        }
+
+        [TestMethod]
+        public void Test_DeleteAuto()
+        {
+            Assert.Inconclusive("Test not implemented.");
+        }
+        [TestMethod]
+        public void Test_DeleteKunde()
+        {
+            Assert.Inconclusive("Test not implemented.");
+        }
+
+
+        [TestMethod]
+        public void Test_DeleteReservation()
+        {
+            Assert.Inconclusive("Test not implemented.");
+        }
+
     }
 }
