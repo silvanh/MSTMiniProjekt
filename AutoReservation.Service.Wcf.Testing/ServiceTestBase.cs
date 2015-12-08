@@ -71,7 +71,7 @@ namespace AutoReservation.Service.Wcf.Testing
         [TestMethod]
         public void Test_GetReservationByIllegalNr()
         {
-            Assert.AreEqual(Target.GetReservation(4), 1);
+            Assert.AreEqual(Target.GetReservation(4), null);
         }
 
         [TestMethod]
@@ -95,7 +95,9 @@ namespace AutoReservation.Service.Wcf.Testing
             kunde.Id = 5;
             kunde.Nachname = "Lebowski";
             kunde.Vorname = "The Dude";
-
+            kunde.Geburtsdatum = new DateTime(10000);
+            
+            Target.AddKunde(kunde);
             Assert.AreEqual(Target.GetKunden().Count, 5);
             Assert.AreEqual(Target.GetKunde(5).Nachname, "Lebowski");
         }
@@ -106,7 +108,11 @@ namespace AutoReservation.Service.Wcf.Testing
             ReservationDto reservation = new ReservationDto();
             reservation.ReservationNr = 4;
             reservation.Kunde = Target.GetKunde(4);
+            reservation.Auto = Target.GetAuto(1);
+            reservation.Bis = new DateTime(10000);
+            reservation.Von = new DateTime(9999);
 
+            Target.AddReservation(reservation);
             Assert.AreEqual(Target.GetReservationen().Count, 4);
             Assert.AreEqual(Target.GetReservation(4).Kunde.Id, 4);
         }
