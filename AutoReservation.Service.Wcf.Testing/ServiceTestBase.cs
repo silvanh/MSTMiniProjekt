@@ -45,9 +45,9 @@ namespace AutoReservation.Service.Wcf.Testing
         {
             List<ReservationDto> reservationen = Target.GetReservationen();
             Assert.AreEqual(reservationen.Count, 3);
-            Assert.AreEqual(reservationen[0].Kunde, 1);
-            Assert.AreEqual(reservationen[1].Kunde, 2);
-            Assert.AreEqual(reservationen[2].Kunde, 3);
+            Assert.AreEqual(reservationen[0].Kunde.Id, 1);
+            Assert.AreEqual(reservationen[1].Kunde.Id, 2);
+            Assert.AreEqual(reservationen[2].Kunde.Id, 3);
         }
 
         [TestMethod]
@@ -65,7 +65,8 @@ namespace AutoReservation.Service.Wcf.Testing
         [TestMethod]
         public void Test_GetReservationByNr()
         {
-            Assert.AreEqual(Target.GetReservation(1).Auto, 1);
+            // SCHMALENTIN! mer vergliicht kei autos mit nummere :-D
+            Assert.AreEqual(Target.GetReservation(1).Auto.Id, 1);
         }
 
         [TestMethod]
@@ -95,7 +96,7 @@ namespace AutoReservation.Service.Wcf.Testing
             kunde.Id = 5;
             kunde.Nachname = "Lebowski";
             kunde.Vorname = "The Dude";
-            kunde.Geburtsdatum = new DateTime(10000);
+            kunde.Geburtsdatum = new DateTime(1942, 12, 4);
             
             Target.AddKunde(kunde);
             Assert.AreEqual(Target.GetKunden().Count, 5);
@@ -109,8 +110,8 @@ namespace AutoReservation.Service.Wcf.Testing
             reservation.ReservationNr = 4;
             reservation.Kunde = Target.GetKunde(4);
             reservation.Auto = Target.GetAuto(1);
-            reservation.Bis = new DateTime(10000);
-            reservation.Von = new DateTime(9999);
+            reservation.Bis = new DateTime(2011, 11, 11);
+            reservation.Von = new DateTime(2012, 12, 12);
 
             Target.AddReservation(reservation);
             Assert.AreEqual(Target.GetReservationen().Count, 4);
@@ -120,40 +121,93 @@ namespace AutoReservation.Service.Wcf.Testing
         [TestMethod]
         public void Test_UpdateAuto()
         {
-            Assert.Inconclusive("Test not implemented.");
+            int id = 1;
+            AutoDto auto = Target.GetAuto(id);
+            auto.Marke = "Wayne Enterprises";
+            auto.Tagestarif = 10000;
+
+            Target.UpdateAuto(Target.GetAuto(id), auto);
+
+            AutoDto updated = Target.GetAuto(id);
+            Assert.AreEqual(auto.Marke, updated.Marke);
+            Assert.AreEqual(auto.Tagestarif, updated.Tagestarif);
         }
 
         [TestMethod]
         public void Test_UpdateKunde()
         {
-            Assert.Inconclusive("Test not implemented.");
+            int id = 2;
+            KundeDto kunde = Target.GetKunde(id);
+            kunde.Nachname = "none";
+            kunde.Vorname = "Kvothe";
+            Target.UpdateKunde(Target.GetKunde(id), kunde);
+
+            KundeDto updated = Target.GetKunde(id);
+            Assert.AreEqual(updated.Nachname, kunde.Nachname);
+            Assert.AreEqual(updated.Vorname, kunde.Vorname);
         }
 
         [TestMethod]
         public void Test_UpdateReservation()
         {
-            Assert.Inconclusive("Test not implemented.");
+            int id = 1;
+            ReservationDto res = Target.GetReservation(id);
+            res.Von = new DateTime(2016, 10, 10);
+            res.Bis = new DateTime(2016, 11, 10);
+            Target.UpdateReservation(Target.GetReservation(id), res);
+
+            ReservationDto updated = Target.GetReservation(id);
+            Assert.AreEqual(updated.Von, res.Von);
+            Assert.AreEqual(updated.Bis, res.Bis);
         }
 
         [TestMethod]
         [ExpectedException(typeof(FaultException<AutoDto>))]
         public void Test_UpdateAutoWithOptimisticConcurrency()
         {
-            Assert.Inconclusive("Test not implemented.");
+            int id = 1;
+            AutoDto auto = Target.GetAuto(id);
+            auto.Marke = "Wayne Enterprises";
+            auto.Tagestarif = 10000;
+
+            AutoDto original = Target.GetAuto(id);
+            Target.UpdateAuto(original, auto);
+
+            auto.AutoKlasse = AutoKlasse.Standard;
+            auto.Marke = "Lexus";
+            Target.UpdateAuto(original, auto);
         }
 
         [TestMethod]
         [ExpectedException(typeof(FaultException<KundeDto>))]
         public void Test_UpdateKundeWithOptimisticConcurrency()
         {
-            Assert.Inconclusive("Test not implemented.");
+            int id = 2;
+            KundeDto kunde = Target.GetKunde(id);
+            kunde.Nachname = "none";
+            kunde.Vorname = "Kvothe";
+
+            KundeDto original = Target.GetKunde(id);
+            Target.UpdateKunde(original, kunde);
+
+            kunde.Nachname = "Bales";
+            kunde.Vorname = "Arlen";
+            Target.UpdateKunde(original, kunde);
         }
 
         [TestMethod]
         [ExpectedException(typeof(FaultException<ReservationDto>))]
         public void Test_UpdateReservationWithOptimisticConcurrency()
         {
-            Assert.Inconclusive("Test not implemented.");
+            int id = 1;
+            ReservationDto res = Target.GetReservation(id);
+            res.Von = new DateTime(2016, 10, 10);
+            res.Bis = new DateTime(2016, 11, 10);
+            ReservationDto original = Target.GetReservation(id);
+            Target.UpdateReservation(original, res);
+
+            res.Auto = Target.GetAuto(2);
+            Target.UpdateReservation(original, res);
         }
 
         [TestMethod]
@@ -169,7 +223,8 @@ namespace AutoReservation.Service.Wcf.Testing
         {
             Target.DeleteAuto(Target.GetAuto(2));
             Assert.AreEqual(Target.GetAutos().Count, 2);
-            Assert.IsNull(Target.GetKunde(2));
+            // Böse Valentin! nöd eifach Code kopiere und vergesse apasse:-D
+            Assert.IsNull(Target.GetAuto(2));
 
         }
 

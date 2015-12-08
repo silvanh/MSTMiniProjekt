@@ -68,7 +68,7 @@ namespace AutoReservation.BusinessLayer
         {
             using (var context = new AutoReservationEntities())
             {
-                return context.Reservation.ToList();
+                return context.Reservation.Include("Auto").Include("Kunde").ToList();
             }
         }
 
@@ -76,7 +76,7 @@ namespace AutoReservation.BusinessLayer
         {
             using (var context = new AutoReservationEntities())
             {
-                return context.Reservation.ToList().Where(r => r.ReservationNr == reservationNr).FirstOrDefault();
+                return context.Reservation.Include("Auto").Include("Kunde").ToList().Where(r => r.ReservationNr == reservationNr).FirstOrDefault();
             }
         }
 

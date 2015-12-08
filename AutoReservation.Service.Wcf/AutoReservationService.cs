@@ -87,9 +87,9 @@ namespace AutoReservation.Service.Wcf
             try {
                 businessComponent.UpdateAuto(DtoConverter.ConvertToEntity(original), DtoConverter.ConvertToEntity(modified));
             }
-            catch (BusinessLayer.LocalOptimisticConcurrencyException<Auto> ex)
+            catch (BusinessLayer.LocalOptimisticConcurrencyException<Auto>)
             {
-                throw new FaultException<AutoDto>(ex.MergedEntity.ConvertToDto());
+                throw new FaultException<AutoDto>(original, "omnomnomnom");
             }
         }
 
@@ -98,7 +98,7 @@ namespace AutoReservation.Service.Wcf
             WriteActualMethod();
             try
             {
-            businessComponent.UpdateKunde(DtoConverter.ConvertToEntity(original), DtoConverter.ConvertToEntity(modified));
+                businessComponent.UpdateKunde(DtoConverter.ConvertToEntity(original), DtoConverter.ConvertToEntity(modified));
             }
             catch (BusinessLayer.LocalOptimisticConcurrencyException<Kunde> ex)
             {
@@ -111,7 +111,7 @@ namespace AutoReservation.Service.Wcf
             WriteActualMethod();
             try
             {
-            businessComponent.UpdateReservation(DtoConverter.ConvertToEntity(original), DtoConverter.ConvertToEntity(modified));
+                businessComponent.UpdateReservation(DtoConverter.ConvertToEntity(original), DtoConverter.ConvertToEntity(modified));
             }
             catch (BusinessLayer.LocalOptimisticConcurrencyException<Reservation> ex)
             {
