@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
+using System.Data.Entity;
 
 namespace AutoReservation.BusinessLayer
 {
@@ -23,7 +24,7 @@ namespace AutoReservation.BusinessLayer
                 var query = from a in context.Auto
                             where a.Id == id
                             select a;
-                return query.FirstOrDefault();
+                return query.SingleOrDefault();
                 //return context.Auto.Where(a=>a.Id==id).First();
             }
         }
@@ -68,7 +69,8 @@ namespace AutoReservation.BusinessLayer
         {
             using (var context = new AutoReservationEntities())
             {
-                return context.Reservation.Include("Auto").Include("Kunde").ToList();
+                //return context.Reservation.Include("Auto").Include("Kunde").ToList();
+                return context.Reservation.Include(r => r.Auto).Include(r => r.Kunde).ToList();
             }
         }
 
@@ -76,7 +78,7 @@ namespace AutoReservation.BusinessLayer
         {
             using (var context = new AutoReservationEntities())
             {
-                return context.Reservation.Include("Auto").Include("Kunde").ToList().Where(r => r.ReservationNr == reservationNr).FirstOrDefault();
+                return context.Reservation.Include("Auto").Include("Kunde").ToList().Where(r => r.ReservationNr == reservationNr).SingleOrDefault();
             }
         }
 
@@ -128,7 +130,7 @@ namespace AutoReservation.BusinessLayer
         {
             using (var context = new AutoReservationEntities())
             {
-                return context.Kunde.ToList().Where(k => k.Id == id).FirstOrDefault();
+                return context.Kunde.ToList().Where(k => k.Id == id).SingleOrDefault();
             }
         }
 

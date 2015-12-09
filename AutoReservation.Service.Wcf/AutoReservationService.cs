@@ -15,7 +15,8 @@ namespace AutoReservation.Service.Wcf
         public void AddAuto(AutoDto auto)
         {
             WriteActualMethod();
-            businessComponent.InsertAuto(DtoConverter.ConvertToEntity(auto));
+            //businessComponent.InsertAuto(DtoConverter.ConvertToEntity(auto));
+            businessComponent.InsertAuto(auto.ConvertToEntity());
         }
 
         public void AddKunde(KundeDto kunde)
@@ -87,9 +88,9 @@ namespace AutoReservation.Service.Wcf
             try {
                 businessComponent.UpdateAuto(DtoConverter.ConvertToEntity(original), DtoConverter.ConvertToEntity(modified));
             }
-            catch (BusinessLayer.LocalOptimisticConcurrencyException<Auto>)
+            catch (BusinessLayer.LocalOptimisticConcurrencyException<Auto> ex)
             {
-                throw new FaultException<AutoDto>(original, "omnomnomnom");
+                throw new FaultException<AutoDto>(ex.MergedEntity.ConvertToDto(), "omnomnomnom");
             }
         }
 

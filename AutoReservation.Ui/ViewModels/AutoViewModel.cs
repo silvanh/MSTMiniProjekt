@@ -94,7 +94,7 @@ namespace AutoReservation.Ui.ViewModels
                 else
                 {
                     var original = autosOriginal.FirstOrDefault(ao => ao.Id == auto.Id);
-                    Service.UpdateAuto(auto, original);
+                    Service.UpdateAuto(original, auto);
                 }
             }
             Load();
